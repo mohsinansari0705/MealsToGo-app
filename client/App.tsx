@@ -1,7 +1,8 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { Text, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { RestaurantsScreen } from "./app/restaurants/restaurants.screen";
+
 
 export default function App() {
   return (
@@ -9,14 +10,7 @@ export default function App() {
       <StatusBar style="auto" animated={true} />
 
       <SafeAreaProvider>
-        <SafeAreaView style={{ flex: 1 }}>
-          <View style={{ padding: 16, backgroundColor: "green" }}>
-            <Text>Search...</Text>
-          </View>
-          <View style={{ flex: 1, padding: 16, backgroundColor: "blue" }}>
-            <Text>List</Text>
-          </View>
-        </SafeAreaView>
+        <RestaurantsScreen />
       </SafeAreaProvider>
     </>
   );
