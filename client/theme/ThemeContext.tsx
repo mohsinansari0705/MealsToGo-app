@@ -2,13 +2,14 @@ import React, { createContext, useContext, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { space } from './spacing';
 import { lightColors, darkColors } from './colors';
-import { fontSize, fontWeight, lineHeight } from './typography';
+import { fonts, fontSize, fontWeight, lineHeight } from './typography';
 
 
 const buildTheme = (scheme: 'light' | 'dark') => ({
   colors: scheme === 'light' ? darkColors : lightColors, // Invert the theme for testing purposes: need to revert back to scheme === "dark" ? darkColors : lightColors when done building
   // colors: scheme === 'dark' ? darkColors : lightColors,
   space,
+  fonts,
   fontSize,
   fontWeight,
   lineHeight,
