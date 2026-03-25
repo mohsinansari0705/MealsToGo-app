@@ -1,6 +1,6 @@
 {
-    "extends": "@react-native",
-    "rules": {
-        "react-native/no-inline-styles": "off"
-    }
+  "extends": "@react-native",
+  "rules": {
+    "react-native/no-inline-styles": "off"
+  }
 }
