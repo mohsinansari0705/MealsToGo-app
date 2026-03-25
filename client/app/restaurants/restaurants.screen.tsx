@@ -3,14 +3,16 @@ import { View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RestaurantInfoCard } from '../../components/RestaurantInfoCard';
+import { useTheme } from '../../theme/ThemeContext';
 
 
 export const RestaurantsScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const theme = useTheme().theme;
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 16 }}>
-      <View style={{ paddingVertical: 12 }}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ paddingHorizontal: theme.space.md, paddingVertical: theme.space.sm * 1.5 }}>
         <Searchbar
           placeholder='Search'
           onChangeText={setSearchQuery}
