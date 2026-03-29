@@ -16,17 +16,34 @@ type Restaurant = {
   rating: number;
   isClosedTemporarily: boolean;
 };
-type RestaurantInfoCardProps = {
-  restaurants: Restaurant;
-};
+// type RestaurantInfoCardProps = {
+//   restaurants: Restaurant;
+// };
 
-export const RestaurantInfoCard = ({ restaurants }: RestaurantInfoCardProps) => {
+// export const RestaurantInfoCard = ({ restaurants }: RestaurantInfoCardProps) => {
+export const RestaurantInfoCard = () => {
+  const restaurants: Restaurant = {
+    name: 'Some Restaurant',
+    icon: 'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png',
+    photos: [
+      'https://imgs.search.brave.com/qLazr26Lu6vYYB-vHR6zUvWJh-KaXqczO7trkHnx8iY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE2/MjU4MTM1MDYwNjIt/MGFlYjFkN2EwOTRi/P2ZtPWpwZyZxPTYw/Jnc9MzAwMCZhdXRv/PWZvcm1hdCZmaXQ9/Y3JvcCZpeGxpYj1y/Yi00LjEuMCZpeGlk/PU0zd3hNakEzZkRC/OE1IeHpaV0Z5WTJo/OE1URjhmR0oxY21k/bGNueGxibnd3Zkh3/d2ZIeDhNQT09',
+    ],
+    address: '100 some random street',
+    isOpenNow: true,
+    rating: 4.2,
+    isClosedTemporarily: true,
+  }
+
   const theme = useTheme().theme;
 
-  const ratingArray: any[] = Array.from(new Array(Math.floor(restaurants.rating)));
+  const ratingArray: any[] = Array.from(
+    new Array(Math.floor(restaurants.rating)),
+    (_, i) => i
+  );
 
   return (
-    <View style={{ paddingHorizontal: theme.space.md }}>
+    // <View style={{ paddingHorizontal: theme.space.md }}>
+    <View>
       <Card mode='contained'>
         <Card.Cover
           key={restaurants.name}
@@ -40,8 +57,13 @@ export const RestaurantInfoCard = ({ restaurants }: RestaurantInfoCardProps) => 
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', gap: theme.space.xs * 0.75, marginVertical: theme.space.xs }}>
-              {ratingArray.map(() =>
-                <Ionicons name='star' size={theme.space.md} color={theme.colors.warning} />
+              {ratingArray.map((index) =>
+                <Ionicons
+                  key={index}
+                  name='star'
+                  size={theme.space.md}
+                  color={theme.colors.warning}
+                />
               )}
             </View>
             
