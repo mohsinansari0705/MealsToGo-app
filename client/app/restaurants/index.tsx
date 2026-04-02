@@ -6,7 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../../theme/ThemeContext';
 import { RestaurantInfoCard } from '../../components/RestaurantInfoCard';
 
-const RestaurantsScreen = () => {
+
+export default function RestaurantsScreen() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const theme = useTheme().theme;
 
@@ -33,5 +34,3 @@ const RestaurantsScreen = () => {
     </SafeAreaView>
   );
 };
-
-export default RestaurantsScreen;
