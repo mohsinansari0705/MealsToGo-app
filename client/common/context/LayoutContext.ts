@@ -14,7 +14,6 @@ export class LayoutData {
     height?: number
   ) {
     const next = new LayoutData();
-    console.log(`[bottombar] old layout context: ${old}`);
 
     next.bottomBarVisible = visible ?? old.bottomBarVisible;
     next.bottomBarSelectedId = selectedId ?? old.bottomBarSelectedId;
