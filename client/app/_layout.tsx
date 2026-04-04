@@ -6,11 +6,13 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { ThemeProvider } from '../theme/ThemeContext';
+import { AppContext, ContextData } from '@/common/context/AppContext';
 import { AppBottomBar } from '../components/common/AppBottomBar';
 import { LayoutContext, LayoutData } from '../common/context/LayoutContext';
 
 
 export default function App() {
+  const [context, setContext] = useState(new ContextData());
   const [layoutContext, setLayoutContext] = useState(new LayoutData());
 
   const [fontsLoaded] = useFonts({
@@ -26,22 +28,17 @@ export default function App() {
 
       <SafeAreaProvider>
         <ThemeProvider>
-          <LayoutContext.Provider value={{ layoutContext, setLayoutContext }}>
-            <SafeAreaView style={{ flex: 1 }}>
-              <View
-                style={{
-                  flex: 1,
-                  paddingBottom: layoutContext.bottomBarVisible
-                    ? layoutContext.bottomBarHeight
-                    : 0,
-                }}
-              >
-                <Slot />
-              </View>
+          <AppContext.Provider value={{ context, setContext }}>
+            <LayoutContext.Provider value={{ layoutContext, setLayoutContext }}>
+              <SafeAreaView style={{ flex: 1 }}>
+                <View style={{ flex: 1, paddingBottom: layoutContext.bottomBarVisible ? layoutContext.bottomBarHeight : 0 }}>
+                  <Slot />
+                </View>
 
-              <AppBottomBar basePath='/' />
-            </SafeAreaView>
-          </LayoutContext.Provider>
+                <AppBottomBar basePath='/' />
+              </SafeAreaView>
+            </LayoutContext.Provider>
+          </AppContext.Provider>
         </ThemeProvider>
       </SafeAreaProvider>
     </>
