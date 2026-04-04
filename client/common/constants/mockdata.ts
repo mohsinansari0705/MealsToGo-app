@@ -1,16 +1,24 @@
+import { User } from '../types/types';
 import antwerp from './mock/antwerp.json';
 import chicago from './mock/chicago.json';
 import toronto from './mock/toronto.json';
 import san_francisco from './mock/san_francisco.json';
 
-export const mocks = {
+
+export const MOCK_USER: User = {
+  id: 'u1',
+  name: 'Demo User',
+  email: 'demo@example.com',
+};
+
+export const MOCK_RESTAURANTS = {
   '51.219448,4.402464': antwerp,
   '43.653225,-79.383186': toronto,
   '41.878113,-87.629799': chicago,
   '37.7749295,-122.4194155': san_francisco,
 };
 
-export const mockImages = [
+export const MOCK_IMAGES: string[] = [
   'https://imgs.search.brave.com/zHpbo3QY1bMQdC-29Cc2OEH_0CeuFqa47KlSey4K8qk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9qdW5rLWZvb2Rf/MTI2MTgzOC01OTI4/LmpwZz9zZW10PWFp/c19oeWJyaWQmdz03/NDAmcT04MA',
   'https://imgs.search.brave.com/Zt9SLvlHn25rgU0bwOgh8TTn3fdMowRv8LKQw0FBtyA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTQy/ODQwOTUxNC9waG90/by9hLW1hbGUtY2hl/Zi1zZXJ2aW5nLWEt/ZmluZS1kaW5pbmct/ZGlzaC1pbi1hLXJl/c3RhdXJhbnQuanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPU9L/MGxBQ2JLdG82b2lP/amc1eGdVeFkyZlBT/OEN0VDNmWDlIaEsy/bnRRLU09',
   'https://imgs.search.brave.com/_SHdyw8WBRz_ZTpSrv1r2As1ywlzSJTGj0h9fIQ67V0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNDYv/OTY2LzEzMC9zbWFs/bC9mcmVzaC1sZW1v/bi1zbGljZXMtb24t/ZGFyay1iYWNrZ3Jv/dW5kLWNpdHJ1cy1m/b29kZ3JhcGh5LWtp/dGNoZW4tZGVjb3It/aGVhbHRoLWNvbmNl/cHQtcGhvdG8uanBn',
