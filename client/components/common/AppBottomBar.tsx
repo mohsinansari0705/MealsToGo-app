@@ -39,11 +39,7 @@ export function AppBottomBar({ basePath = '/' }: { basePath: string }) {
             flexDirection: 'row',
             justifyContent: 'space-around',
             paddingVertical: 8,
-            shadowColor: '#000',
-            shadowOpacity: 0.12,
-            shadowRadius: 8,
-            shadowOffset: { width: 0, height: 2 },
-            elevation: 8,
+            boxShadow: '0px 2px 8px 8px rgba(0, 0, 0, 0.12)'
           },
           {
             bottom: insets.bottom,
