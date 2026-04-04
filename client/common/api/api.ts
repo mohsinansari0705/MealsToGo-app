@@ -1,25 +1,86 @@
-import { mocks } from '../constants/mockdata';
+import { http } from './http';
+import camelize from 'camelize';
+import { ApiConfig } from './config';
+import type { User, Restaurant } from '../types/types';
+import {
+  MOCK_USER,
+  MOCK_RESTAURANTS,
+  MOCK_IMAGES,
+} from '../constants/mockData';
 
-export const fetchRestaurants = async (
-  lat: number = 37.7749295,
-  log: number = -122.4194155
-) => {
-  return new Promise((resolve, reject) => {
-    const key = String(lat) + ',' + String(log);
-    const mock: any = mocks[key as keyof typeof mocks];
 
-    if (!mock) {
-      reject(new Error('No mock data found for the given coordinates'));
-    } else {
-      resolve(mock);
-    }
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const transformData = ({ results = [] }: any) => {
+  const restaurants: Restaurant[] = [];
+
+  camelize(results).map((r: any) => {
+    const restaurant: Partial<Restaurant> = {};
+
+    restaurant.id = r.placeId;
+    restaurant.name = r.name;
+    restaurant.address = r.vicinity;
+    restaurant.photos = [
+      MOCK_IMAGES[Math.floor(Math.random() * MOCK_IMAGES.length)],
+    ]; // Using mock images for all restaurants
+    restaurant.icon = r.icon;
+    restaurant.rating = r.rating;
+    restaurant.userRatingsTotal = r.userRatingsTotal;
+    restaurant.types = r.types;
+    restaurant.isOpenNow =
+      r.openingHours?.openNow === true && r.permanentlyClosed !== true;
+    restaurant.isClosedTemporarily = r.businessStatus === 'CLOSED_TEMPORARILY';
+    restaurant.geometry = r.geometry;
+
+    restaurants.push(restaurant as Restaurant);
   });
+
+  return restaurants;
 };
 
-fetchRestaurants()
-  .then((data) => {
-    console.log('Fetched restaurants:', data);
-  })
-  .catch((error) => {
-    console.error('Error fetching restaurants:', error);
-  });
+export class Api {
+  private readonly useMock: boolean;
+  postEvent?: (event: string, payload?: any) => void; // Optional callback for event tracking
+
+  constructor(
+    useMock = ApiConfig.useMock,
+    postEvent?: (event: string, payload?: any) => void
+  ) {
+    this.useMock = useMock;
+    this.postEvent = postEvent;
+  }
+
+  async getUser(): Promise<User> {
+    if (this.useMock) {
+      await delay(300);
+      return MOCK_USER;
+    }
+
+    const response = await http.get('auth/me');
+    return response.data.data as User;
+  }
+
+  async getRestaurants(
+    lat: number = 37.7749295, // Coordinates for San Francisco as default (wll be removed)
+    lng: number = -122.4194155
+  ): Promise<Restaurant[]> {
+    if (this.useMock) {
+      await delay(400);
+
+      const key = String(lat) + ',' + String(lng);
+      const mockRestaurants: any =
+        MOCK_RESTAURANTS[key as keyof typeof MOCK_RESTAURANTS];
+
+      if (!mockRestaurants) {
+        throw new Error('No mock data found for the given coordinates');
+      } else {
+        return transformData(mockRestaurants);
+      }
+    }
+
+    const response = await http.get('restaurants', { params: { lat, lng } });
+    return transformData(response.data);
+  }
+}
