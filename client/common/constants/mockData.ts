@@ -4,12 +4,12 @@ import chicago from './mock/chicago.json';
 import toronto from './mock/toronto.json';
 import san_francisco from './mock/san_francisco.json';
 
-
 export const MOCK_USER: User = {
   id: 'u1',
   name: 'Demo User',
   email: 'demo@example.com',
 };
+
 
 export const MOCK_RESTAURANTS = {
   '51.219448,4.402464': antwerp,
@@ -27,3 +27,59 @@ export const MOCK_IMAGES: string[] = [
   'https://imgs.search.brave.com/v7pn0CFVa4RogZX3eMWnueEmi4WTV8GahJjSVnjng7U/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNDYv/OTg4LzcxNi9zbWFs/bC90cnVmZmxlLWZy/aWVzLWluLWRlZXAt/ZnJ5ZXItZGlzaC1z/aWRlLXZpZXctb24t/ZGFyay1iYWNrZ3Jv/dW5kLWZhc3QtZm9v/ZC1waG90by5qcGc',
   'https://imgs.search.brave.com/S2IMbkFcxVGGoRhICywDKL8FP6l92Lh6zWDVTg9cJYY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNzUv/NjU5Lzg1My9zbWFs/bC9kZWxpY2lvdXMt/YnVyZ2VyLXdpdGgt/Y2hlZXNlLWxldHR1/Y2UtYW5kLWJhY29u/LW9uLXNsYXRlLXBs/YXRlLWdvdXJtZXQt/Zm9vZGdyYXBoeS1k/YXJrLWJhY2tncm91/bmQtZnJlZS1waG90/by5qcGc',
 ];
+
+
+export const MOCK_LOCATIONS = {
+  antwerp: {
+    results: [
+      {
+        geometry: {
+          location: { lat: 51.219448, lng: 4.402464 },
+          viewport: {
+            northeast: { lat: 51.2145994302915, lng: 4.418074130291502 },
+            southwest: { lat: 51.2119014697085, lng: 4.415376169708497 },
+          },
+        },
+      },
+    ],
+  },
+  'san francisco': {
+    results: [
+      {
+        geometry: {
+          location: { lat: 37.7749295, lng: -122.4194155 },
+          viewport: {
+            northeast: { lat: 37.812, lng: -122.3482 },
+            southwest: { lat: 37.70339999999999, lng: -122.527 },
+          },
+        },
+      },
+    ],
+  },
+  chicago: {
+    results: [
+      {
+        geometry: {
+          location: { lat: 41.878113, lng: -87.629799 },
+          viewport: {
+            northeast: { lat: 41.88758823029149, lng: -87.6194830697085 },
+            southwest: { lat: 41.88489026970849, lng: -87.6221810302915 },
+          },
+        },
+      },
+    ],
+  },
+  toronto: {
+    results: [
+      {
+        geometry: {
+          location: { lat: 43.653225, lng: -79.383186 },
+          viewport: {
+            northeast: { lat: 43.64794098029149, lng: -79.37325551970848 },
+            southwest: { lat: 43.6452430197085, lng: -79.37595348029149 },
+          },
+        },
+      },
+    ],
+  },
+};
