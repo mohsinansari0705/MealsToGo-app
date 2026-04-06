@@ -4,6 +4,21 @@ export type User = {
   email: string;
 };
 
+export type Coords = {
+  lat: number;
+  lng: number;
+};
+
+export type Location = {
+  geometry: {
+    location: Coords;
+    viewport: {
+      northeast: Coords;
+      southwest: Coords;
+    };
+  };
+};
+
 export type Restaurant = {
   id: string;
   name: string;
@@ -15,20 +30,7 @@ export type Restaurant = {
   types: string[];
   isOpenNow: boolean;
   isClosedTemporarily: boolean;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-    viewport: {
-      lat: number;
-      lng: number;
-    };
-    southwest: {
-      lat: number;
-      lng: number;
-    };
-  };
+  geometry: Location;
 };
 
 export type ApiError = {
