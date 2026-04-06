@@ -64,7 +64,9 @@ export const RestaurantInfoCard = ({ restaurant }: RestaurantInfoCardProps) => {
                   />
                 ))}
               </View>
-              <Text>({userRatingsTotal})</Text>
+              {userRatingsTotal && (
+                <Text>({userRatingsTotal})</Text>
+              )}
             </View>
 
             <View style={{ flexDirection: 'row', gap: theme.space.sm * 1.25, alignItems: 'center' }}>
