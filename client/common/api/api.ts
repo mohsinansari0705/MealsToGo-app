@@ -13,7 +13,7 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const transformData = ({ results = [] }: any) => {
+const transformRestaurant = ({ results = [] }: any) => {
   const restaurants: Restaurant[] = [];
 
   camelize(results).map((r: any) => {
@@ -62,25 +62,22 @@ export class Api {
     return response.data.data as User;
   }
 
-  async getRestaurants(
-    lat: number = 37.7749295, // Coordinates for San Francisco as default (wll be removed)
-    lng: number = -122.4194155
-  ): Promise<Restaurant[]> {
+  async getRestaurants(lat: number, lng: number): Promise<Restaurant[]> {
     if (this.useMock) {
       await delay(400);
 
-      const key = String(lat) + ',' + String(lng);
+      const key = `${lat},${lng}`;
       const mockRestaurants: any =
         MOCK_RESTAURANTS[key as keyof typeof MOCK_RESTAURANTS];
 
       if (!mockRestaurants) {
-        throw new Error('No mock data found for the given coordinates');
+        throw new Error('No mock data found for the given coordinates :(');
       } else {
-        return transformData(mockRestaurants);
+        return transformRestaurant(mockRestaurants);
       }
     }
 
     const response = await http.get('restaurants', { params: { lat, lng } });
-    return transformData(response.data);
+    return transformRestaurant(response.data);
   }
 }
