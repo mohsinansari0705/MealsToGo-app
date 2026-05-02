@@ -41,10 +41,9 @@ export const LocationContextProvider: React.FC<{
       const result = getLocation(k);
       setLocation(result);
       return result;
-    } catch (err) {
+    } catch (err: any) {
       setLocation(null);
-      console.log('[LocationContext - Error]', err);
-      throw new Error('Location not Found!');
+      throw new Error(err.message as string);
     }
   };
 
