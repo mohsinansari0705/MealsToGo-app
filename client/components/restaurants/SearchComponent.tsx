@@ -5,8 +5,12 @@ import { Searchbar } from 'react-native-paper';
 import { useTheme } from '@/theme/ThemeContext';
 import { LocationContext } from '@/common/context/LocationContext';
 
+type Props = {
+  onSearch?: (keyword: string) => Promise<void>;
+  onError?: (err: any) => void;
+};
 
-export const SearchBar = () => {
+export const SearchBar = ({ onSearch, onError }: Props) => {
   const locationContext = useContext(LocationContext);
   const search = locationContext.search;
   const theme = useTheme().theme;
@@ -19,6 +23,37 @@ export const SearchBar = () => {
     search(searchKeyword);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    setSearchKeyword(locationContext.keyword);
+  }, [locationContext.keyword]);
+
+  const handleSubmit = async () => {
+    const k = searchKeyword.trim();
+    if (!k) return;
+
+    if (
+      locationContext.keyword &&
+      locationContext.keyword.toLowerCase() === k.toLowerCase()
+    ) {
+      return;
+    }
+
+    if (onSearch) {
+      try {
+        await onSearch(k);
+      } catch (err) {
+        onError?.(err);
+      }
+      return;
+    }
+
+    if (!search) return;
+    try {
+      await search(k);
+    } catch (err) {
+      onError?.(err);
+    }
+  };
 
   return (
     <View
@@ -30,16 +65,7 @@ export const SearchBar = () => {
       <Searchbar
         placeholder='Search for a location'
         value={searchKeyword}
-        onSubmitEditing={() => {
-          if (!search) return;
-          if (
-            locationContext.keyword.toLowerCase() ===
-            searchKeyword.toLowerCase()
-          ) {
-            return;
-          }
-          search(searchKeyword);
-        }}
+        onSubmitEditing={handleSubmit}
         onChangeText={(text) => setSearchKeyword(text)}
       />
     </View>
