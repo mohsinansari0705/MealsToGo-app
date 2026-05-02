@@ -41,20 +41,28 @@ export default function RestaurantsScreen() {
   };
 
   useEffect(() => {
-    if (!locationContext.location) {
-      return;
-    } else {
-      const { lat, lng } = locationContext.location;
-      fetchRestaurantsData(lat, lng);
-    }
+    const lat = locationContext.location?.lat;
+    const lng = locationContext.location?.lng;
+    if (typeof lat !== 'number' || typeof lng !== 'number') return;
+
+    fetchRestaurantsData(lat, lng);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationContext.location]);
+  }, [locationContext.location?.lat, locationContext.location?.lng]);
+
+  const handleSearch = async (keyword: string) => {
+    try {
+      setError(null);
+      await locationContext.search(keyword);
+    } catch (err) {
+      setError(getApiErrorMessage(err));
+    }
+  }
 
   if (error) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <SearchBar />
+        <SearchBar onSearch={handleSearch} />
         <View style={{ flex: 1, paddingHorizontal: theme.space.xxl * 2, justifyContent: 'center' }}>
           <Text style={{ textAlign: 'center' }}>
             {error}
@@ -66,9 +74,9 @@ export default function RestaurantsScreen() {
   if (loading) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <SearchBar />
+        <SearchBar onSearch={handleSearch} />
         <View style={{ flex: 1, paddingHorizontal: theme.space.xxl * 2, justifyContent: 'center' }}>
-          <ActivityIndicator size={theme.space.xl * 1.25} />
+          <ActivityIndicator size={theme.space.xl * 1.25} color={theme.colors.info} />
         </View>
       </SafeAreaView>
     );
@@ -77,16 +85,16 @@ export default function RestaurantsScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
 
       <FlatList
         data={restaurants}
         renderItem={({ item }) => <RestaurantInfoCard restaurant={item} />}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{
-          paddingHorizontal: theme.space.md,
           gap: theme.space.md,
           marginBottom: theme.space.xl,
+          paddingHorizontal: theme.space.md,
         }}
       />
     </SafeAreaView>
