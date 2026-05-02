@@ -1,9 +1,10 @@
+import { useRouter } from 'expo-router';
 import React, { useContext } from 'react';
 import { Pressable, View } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useTheme } from '@/theme/ThemeContext';
 import { LayoutContext } from '../../common/context/LayoutContext';
 
 const TABS = [
@@ -16,6 +17,7 @@ export function AppBottomBar({ basePath = '/' }: { basePath: string }) {
   const { layoutContext, setLayoutContext } = useContext(LayoutContext);
   const insets = useSafeAreaInsets();
   const router = useRouter();
+  const theme = useTheme().theme;
 
   if (!layoutContext.bottomBarVisible) return null;
 
@@ -33,13 +35,13 @@ export function AppBottomBar({ basePath = '/' }: { basePath: string }) {
       <View
         style={[
           {
-            marginHorizontal: 12,
-            borderRadius: 16,
-            backgroundColor: '#FFFFFF',
             flexDirection: 'row',
             justifyContent: 'space-around',
-            paddingVertical: 8,
-            boxShadow: '0px 2px 8px 8px rgba(0, 0, 0, 0.12)'
+            paddingVertical: theme.space.sm,
+            paddingHorizontal: theme.space.sm,
+            backgroundColor: theme.colors.foreground,
+            borderRadius: theme.space.md,
+            boxShadow: '0px 2px 8px 8px rgba(0, 0, 0, 0.12)',
           },
           {
             bottom: insets.bottom,
@@ -59,35 +61,29 @@ export function AppBottomBar({ basePath = '/' }: { basePath: string }) {
           return (
             <Pressable
               key={tab.id}
-              style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingVertical: 6,
-              }}
               onPress={() => {
                 router.navigate(basePath + tab.id);
                 setLayoutContext((old) =>
                   old.setBottomBar(old, undefined, tab.id)
                 );
               }}
+              style={{ flex: 1, alignItems: 'center', paddingVertical: theme.space.xs * 1.5 }}
             >
               <View
                 style={[
                   {
-                    width: 40,
-                    height: 40,
-                    borderRadius: 20,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    padding: theme.space.sm * 1.25,
+                    borderRadius: theme.space.sm * 1.5,
                   },
-                  active && { backgroundColor: 'rgba(10, 132, 255, 0.12)' },
+                  active && { backgroundColor: theme.colors.info + '20' },
                 ]}
               >
                 <Ionicons
                   name={tab.icon}
                   size={22}
-                  color={active ? '#0A84FF' : '#7A7A7A'}
+                  color={ active ? theme.colors.info : theme.colors.textSecondary }
                 />
               </View>
             </Pressable>
