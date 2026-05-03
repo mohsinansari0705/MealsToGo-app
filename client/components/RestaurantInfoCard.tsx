@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'react-native-paper';
 import { SvgXml } from 'react-native-svg';
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 import open from '../assets/icons/open';
 import { useTheme } from '../theme/ThemeContext';
@@ -11,9 +11,10 @@ import type { Restaurant } from '../common/types/types';
 
 type RestaurantInfoCardProps = {
   restaurant: Restaurant;
+  onPress?: (restaurant: Restaurant) => void;
 };
 
-export const RestaurantInfoCard = ({ restaurant }: RestaurantInfoCardProps) => {
+export const RestaurantInfoCard = ({ restaurant, onPress }: RestaurantInfoCardProps) => {
   const theme = useTheme().theme;
 
   const {
@@ -35,7 +36,12 @@ export const RestaurantInfoCard = ({ restaurant }: RestaurantInfoCardProps) => {
 
   
   return (
-    <View>
+    <TouchableOpacity
+      activeOpacity={0.75}
+      onPress={() => {
+        onPress?.(restaurant)
+      }}
+    >
       <Card mode='contained'>
         <Image
           key={id}
@@ -92,6 +98,6 @@ export const RestaurantInfoCard = ({ restaurant }: RestaurantInfoCardProps) => {
           </Text>
         </Card.Content>
       </Card>
-    </View>
+    </TouchableOpacity>
   );
 };
