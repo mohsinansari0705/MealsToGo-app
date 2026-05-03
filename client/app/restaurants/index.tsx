@@ -5,10 +5,12 @@ import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { Restaurant } from '@/common/types/types';
 import { useTheme } from '../../theme/ThemeContext';
 import { AppContext } from '@/common/context/AppContext';
+import { useBottomBar } from '@/common/context/useBottomBar';
 import { getApiErrorMessage } from '@/common/api/api.errors';
 import { LocationContext } from '@/common/context/LocationContext';
 import { RestaurantInfoCard } from '../../components/RestaurantInfoCard';
 import { SearchBar } from '../../components/restaurants/SearchComponent';
+import { RestaurantDetailSheet } from '@/components/RestaurantDetailSheet';
 
 
 export default function RestaurantsScreen() {
@@ -19,6 +21,9 @@ export default function RestaurantsScreen() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
+
+  useBottomBar(!selectedRestaurant, 'restaurants');
 
   const fetchRestaurantsData = async (lat: number, lng: number) => {
     setError(null);
@@ -89,7 +94,7 @@ export default function RestaurantsScreen() {
 
       <FlatList
         data={restaurants}
-        renderItem={({ item }) => <RestaurantInfoCard restaurant={item} />}
+        renderItem={({ item }) => <RestaurantInfoCard restaurant={item} onPress={setSelectedRestaurant} />}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{
           gap: theme.space.md,
@@ -97,6 +102,13 @@ export default function RestaurantsScreen() {
           paddingHorizontal: theme.space.md,
         }}
       />
+
+      {selectedRestaurant && (
+        <RestaurantDetailSheet
+          restaurant={selectedRestaurant}
+          onClose={() => setSelectedRestaurant(null)}
+        />
+      )}
     </SafeAreaView>
   );
 }
